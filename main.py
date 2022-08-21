@@ -29,6 +29,7 @@ for i in range(10):
 def parametrized_logs(parameter):
 	def make_logs(old_func):
 		def range_func(*args, **kwargs):
+			full_path = os.path.join(BASE_PATH, LOGS_FILE_NAME)
 			results = old_func(*args, **kwargs)
 			print('Лог также записан')
 			return results
@@ -37,7 +38,7 @@ def parametrized_logs(parameter):
 
 	return make_logs
 
-@parametrized_logs(parameter=full_path)
+@parametrized_logs(parameter='log.txt')
 def log_func(file_path, results):
 	with open(file_path, 'a') as file:
 		result = f'{datetime.now()} | {log_func.__name__} | {results} "\n"'
@@ -45,4 +46,3 @@ def log_func(file_path, results):
 
 for i in range(10):
 	log_func(full_path, random.randint(1,10))
-	# Куда необходимо добавить parameter? Потому что, если добавить в качестве аргумента в log_func, то он не видит и выходит ошибка
